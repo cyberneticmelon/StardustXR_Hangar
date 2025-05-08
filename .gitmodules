@@ -1,0 +1,39 @@
+[submodule "server"]
+	path = server
+	url = https://github.com/StardustXR/server
+[submodule "armillary"]
+	path = armillary
+	url = https://github.com/StardustXR/armillary
+[submodule "atmosphere"]
+	path = atmosphere
+	url = https://github.com/StardustXR/atmosphere
+[submodule "black-hole"]
+	path = black-hole
+	url = https://github.com/StardustXR/black-hole
+[submodule "comet"]
+	path = comet
+	url = https://github.com/StardustXR/comet
+[submodule "flatland"]
+	path = flatland
+	url = https://github.com/StardustXR/flatland
+[submodule "gravity"]
+	path = gravity
+	url = https://github.com/StardustXR/gravity
+[submodule "magnetar"]
+	path = magnetar
+	url = https://github.com/StardustXR/magnetar
+[submodule "non-spatial-input"]
+	path = non-spatial-input
+	url = https://github.com/StardustXR/non-spatial-input
+[submodule "protostar"]
+	path = protostar
+	url = https://github.com/StardustXR/protostar
+[submodule "solar-sailer"]
+	path = solar-sailer
+	url = https://github.com/StardustXR/solar-sailer
+[submodule "kiara"]
+	path = kiara
+	url = https://github.com/StardustXR/kiara
+[submodule "poltergeist"]
+	path = poltergeist
+	url = https://github.com/StardustXR/poltergeist
