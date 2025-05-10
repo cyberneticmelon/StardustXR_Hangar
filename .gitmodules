@@ -37,3 +37,6 @@
 [submodule "poltergeist"]
 	path = poltergeist
 	url = https://github.com/StardustXR/poltergeist
+[submodule "client-template"]
+	path = client-template
+	url = https://github.com/StardustXR/client-template
