@@ -21,20 +21,11 @@ install-deps:
           build-essential \
           cargo \
           cmake \
-          # X11 and graphical environment
-          libx11-dev libxfixes-dev libxau-dev libxcb1-dev libxkbcommon-dev libxkbcommon-x11-dev \
-          libegl-dev libgl-dev libgbm-dev libdrm-dev \
-          # Font and text rendering
-          libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libgraphite2-dev \
-          libxml2-dev libexpat1-dev libpcre2-dev \
-          # Compression and encoding
-          zlib1g-dev libbz2-dev libpng-dev libbrotli-dev liblzma-dev \
-          # C++ standard library
-          libstdc++-dev \
-          # GLib and related system libraries
-          libglib2.0-dev libgudev-1.0-0 libffi8 \
-          # Input and device libraries
-          libudev1 libinput10 libcap2 libmtdev1 libevdev2 libwacom9
+           libxkbcommon-dev libudev1 libinput10 libcap2 libmtdev1 libevdev2 libwacom9 libgudev-1.0-0 \
+           libglib2.0-dev libffi8 libpcre2-dev libxkbcommon-x11-dev libxcb-dev libxcb-xkb-dev libxau-dev \ 
+           libstdc++-dev libx11-dev libxfixes-dev libegl-dev libgbm-dev libfontconfig1-dev libgl-dev \
+           libdrm-dev libexpat1-dev libfreetype6-dev libxml2-dev zlib1g-dev libbz2-dev libpng-dev \ 
+           libharfbuzz-dev libbrotli-dev liblzma-dev libraphite2-dev
 
     elif echo "$DISTRO" | grep -qE 'fedora'; then
         echo "Installing fedora dependencies with dnf..."
@@ -42,23 +33,11 @@ install-deps:
           sudo dnf group install -y development-tools \
           # Install individual packages grouped by functionality
           sudo dnf install -y \
-            # Build tools
             cargo cmake \
-            # X11 and graphical system
-            libX11-devel libXfixes-devel libxcb-devel libxcb-xkb libxkbcommon-devel \
-            mesa-libEGL-devel mesa-libGLES-devel xcb-util-devel libXau-devel \
-            # Wayland and OpenXR support
-            wayland-devel openxr-devel \
-            # Fonts and text rendering
-            fontconfig-devel freetype-devel harfbuzz-devel graphite2-devel \
-            # System and runtime libraries
-            systemd-libs glib2-devel libstdc++ libffi libgudev \
-            # Compression and encoding
-            bzip2-devel xz-devel libpng-devel brotli-devel expat-devel \
-            # Parsing and pattern matching
-            libxml2-devel pcre2-devel jsoncpp-devel \
-            # Input and device libraries
-            libinput libcap mtdev libevdev libwacom
+            libxkbcommon-devel systemd-devel libinput-devel libcap-devel mtdev-devel libevdev-devel glib2-devel \
+            libffi-devel pcre2-devel libxkbcommon-x11-devel libxcb-devel libXau-devel libstdc++-devel libx11-devel libxfixes-devel \
+            mesa-libEGL-devel mesa-libgbm-devel fontconfig-devel libdrm-devel expat-devel freetype-devel libxml2-devel zlib-devel \
+            bzip2-devel libpng-devel harfbuzz-devel brotli-devel xz-devel graphite2-devel
 
     elif echo "$DISTRO" | grep -q 'arch'; then
         echo "Installing arch dependencies with pacman..."
@@ -66,19 +45,9 @@ install-deps:
           cargo \ 
           cmake \
           sudo pacman -Syu --needed \
-          # X11 and graphical environment
-          libx11 libxfixes libxau libxcb libxkbcommon libxkbcommon-x11 \
-          mesa \
-          # Fonts and text rendering
-          fontconfig freetype2 harfbuzz graphite \
-          libxml2 expat pcre2 \
-          # Compression and encoding
-          zlib bzip2 libpng brotli xz \
-          # GLib and system libs
-          glib2 libgudev libffi systemd \
-          # Input and device handling
-          libinput libcap mtdev libevdev libwacom
-
+          libxkbcommon systemd libinput libcap mtdev libevdev libwacom glib2 libffi pcre2 libxkbcommon-x11 \
+          libxcb libxau libx11 libxfixes mesa fontconfig libdrm expat freetype2 libxml2 zlib bzip2 \ 
+          libpng harfbuzz brotli xz graphite
     else
         echo "Unsupported distro: $ID"
         exit 1
@@ -117,8 +86,12 @@ cargo-install-repos:
 
     echo "Successfully processed ${#REPO_DIRS[@]} crates"
 
-atmosphere-activation:
-  ./prefix/bin/atmosphere install /atmosphere/default_envs/the_grid
+
+# Install an XR environment
+atmosphere-manual-installation:
+  echo "Insert location of an env.kdl file:"
+  read -r XR_ENV_LOCATION
+  ./prefix/bin/atmosphere install XR_ENV_LOCATION
 
 run-stardust-xr:
   dbus-run-session ./prefix/bin/stardust-xr-server -e startup.sh
