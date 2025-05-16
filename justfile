@@ -86,6 +86,10 @@ cargo-install-repos:
 
     echo "Successfully processed ${#REPO_DIRS[@]} crates"
 
+        if [[ -d "$entry" ]]; then
+            echo "$(basename "$entry")"
+        fi
+    done
 
 # Install an XR environment
 atmosphere-manual-installation:
