@@ -22,10 +22,10 @@ install-dependencies:
           cargo \
           cmake \
            libxkbcommon-dev libudev1 libinput10 libcap2 libmtdev1 libevdev2 libwacom9 libgudev-1.0-0 \
-           libglib2.0-dev libffi8 libpcre2-dev libxkbcommon-x11-dev libxcb-dev libxcb-xkb-dev libxau-dev \ 
-           libstdc++-dev libx11-dev libxfixes-dev libegl-dev libgbm-dev libfontconfig1-dev libgl-dev \
-           libdrm-dev libexpat1-dev libfreetype6-dev libxml2-dev zlib1g-dev libbz2-dev libpng-dev \ 
-           libharfbuzz-dev libbrotli-dev liblzma-dev libraphite2-dev
+           libglib2.0-dev libffi8 libpcre2-dev libxkbcommon-x11-dev libxcb1-dev libxcb-xkb-dev libxau-dev \
+           libstdc++-11-dev libx11-dev libxfixes-dev libegl-dev libgbm-dev libfontconfig1-dev libgl-dev \
+           libdrm-dev libexpat1-dev libfreetype6-dev libxml2-dev zlib1g-dev libbz2-dev libpng-dev \
+           libharfbuzz-dev libbrotli-dev liblzma-dev libgraphite2-dev libudev-dev libinput-dev
 
     elif echo "$DISTRO" | grep -qE 'fedora'; then
         echo "Installing fedora dependencies with dnf..."
@@ -35,18 +35,16 @@ install-dependencies:
           sudo dnf install -y \
             cargo cmake \
             libxkbcommon-devel systemd-devel libinput-devel libcap-devel mtdev-devel libevdev-devel glib2-devel \
-            libffi-devel pcre2-devel libxkbcommon-x11-devel libxcb-devel libXau-devel libstdc++-devel libx11-devel libxfixes-devel \
+            libffi-devel pcre2-devel libxkbcommon-x11-devel libxcb-devel libXau-devel libstdc++-devel libX11-devel libXfixes-devel \
             mesa-libEGL-devel mesa-libgbm-devel fontconfig-devel libdrm-devel expat-devel freetype-devel libxml2-devel zlib-devel \
             bzip2-devel libpng-devel harfbuzz-devel brotli-devel xz-devel graphite2-devel
 
     elif echo "$DISTRO" | grep -q 'arch'; then
         echo "Installing arch dependencies with pacman..."
-        sudo pacman -Sy --noconfirm \
-          cargo \ 
-          cmake \
-          sudo pacman -Syu --needed \
+        yes "" | sudo pacman -Sy --noconfirm \
+          cargo \
           libxkbcommon systemd libinput libcap mtdev libevdev libwacom glib2 libffi pcre2 libxkbcommon-x11 \
-          libxcb libxau libx11 libxfixes mesa fontconfig libdrm expat freetype2 libxml2 zlib bzip2 \ 
+          libxcb libxau libx11 libxfixes mesa fontconfig libdrm expat freetype2 libxml2 zlib bzip2 \
           libpng harfbuzz brotli xz graphite
     else
         echo "Unsupported distro: $ID"
@@ -182,7 +180,7 @@ run CLIENT_NAME:
         exit 1
     fi
 
-# Add client executables from target/debug to startup.sh (ignores files with extensions)
+# Add client executables from target/debug to startup.sh 
 add-clients *CLIENTS:
     #!/usr/bin/env bash
     set -euo pipefail
