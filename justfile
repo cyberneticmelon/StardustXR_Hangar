@@ -162,15 +162,35 @@ cargo-reinstall-client:
     echo "Successfully updated client '$CLIENT_NAME'"
 
 # Run a client by name (searches recursively)
-run CLIENT_NAME:
+#run CLIENT_NAME:
+#    #!/usr/bin/env bash
+#    FOUND=0
+#    
+#    # Use process substitution to maintain shell context
+#    while IFS= read -r -d $'\0' dir; do
+#        if [[ -f "$dir/Cargo.toml" && -f "$dir/src/main.rs" ]]; then
+#            echo "Running client in: $dir"
+#            (cd "$dir" && cargo run)
+#            FOUND=1
+#        fi
+#    done < <(find . -type d -name "{{CLIENT_NAME}}" -print0)
+#
+#    if [[ $FOUND -eq 0 ]]; then
+#        echo "Error: No client named '{{CLIENT_NAME}}' with src/main.rs found"
+#        exit 1
+#    fi
+
+# Run a client by name (searches recursively) and forward arguments
+# just run CLIENT_NAME -- extra args to pass to cargo run
+run CLIENT_NAME +ARGS:
     #!/usr/bin/env bash
+    set -e
     FOUND=0
-    
-    # Use process substitution to maintain shell context
+
     while IFS= read -r -d $'\0' dir; do
         if [[ -f "$dir/Cargo.toml" && -f "$dir/src/main.rs" ]]; then
             echo "Running client in: $dir"
-            (cd "$dir" && cargo run)
+            (cd "$dir" && cargo run "${ARGS[@]}")
             FOUND=1
         fi
     done < <(find . -type d -name "{{CLIENT_NAME}}" -print0)
@@ -179,6 +199,7 @@ run CLIENT_NAME:
         echo "Error: No client named '{{CLIENT_NAME}}' with src/main.rs found"
         exit 1
     fi
+
 
 # Add client executables from target/debug to startup.sh 
 add-clients *CLIENTS:
